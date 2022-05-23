@@ -137,5 +137,8 @@ contract ConnectFour {
     /// @param _row the index of the row, valid values are 0 through 5 inclusive
     /// @return the index of the board corresponding to these coordinates
     function boardIndex(uint256 _col, uint256 _row) public pure returns (uint256) {
+        require (_col > 6 || _col < 0, "Column index out of range");
+        require (_row > 5 || _row < 0, "Row index out of range");
+        return (_row * 7 + _col);
     }
 }
