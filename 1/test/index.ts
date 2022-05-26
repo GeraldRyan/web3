@@ -43,7 +43,7 @@ describe("ConnectFour", () => {
 
 
   beforeEach(async () => {
-    const [player1Signer, player2Signer, player3Signer] = await ethers.getSigners(); // why are there three? Why are there any at this point? 
+    const [player1Signer, player2Signer, player3Signer, ...addrs] = await ethers.getSigners(); // why are there three? Why are there any at this point? 
     const p1 = player1Signer.address;
     const p2 = player2Signer.address;
 
@@ -62,9 +62,14 @@ describe("ConnectFour", () => {
 
 
   it("should initialize properly and set Game state", async () => {
-    // gameId correct
+    // gameId correct, i.e. 0
+    // where does the gameId live? It's only spit out once in initializeGame? Oh we haven't init yet. 
+    const gameId = await p1cf.initializeGame({value:1})  // where in the docs is it written to use an {} to sub for msg? Also this does NOT return a gameID but a Transaction object. Yet we return a gameId in the contract file. Somewhere it gets mutated. 
+    expect(gameId).to.equal(0);
     
     // game counter increments (if global state is available)
+
+    expect(await p1cf.games(gameId))
 
     // board exists on game and is empty
 

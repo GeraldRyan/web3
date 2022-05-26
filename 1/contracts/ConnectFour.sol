@@ -71,12 +71,6 @@ contract ConnectFour {
         maxBetAmount = _maxBetAmount;
     }
 
-    /// @notice Create a Game that can be started by any other address. To start a game the caller
-    /// must send an ETH amount between the min and max bet amounts
-    /// @notice Each game is for a 50/50 bet, so when the caller of this functions sends, say, 1 ETH,
-    /// the opponent must send in the same amount of ETH in ConnectFour.startGame
-    /// @dev the returned gameId is a monotonically increasing ID used to interact with this new Game
-    /// @return a game ID, which can be used by each player to interact with the new Game
     function initializeGame() external payable returns (uint256) {
         require(msg.value >= minBetAmount && msg.value <= maxBetAmount, "check bet amt");
         uint256 gameId = gameIdCounter;
