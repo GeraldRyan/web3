@@ -16,11 +16,19 @@ describe("ConnectFour", () => {
 
   let provider: Provider
 
+  
+  const INITIALIZED_STATUS = 1
+  const STARTED_STATUS = 2
+  const FIRST_GAME_ID = 0
+  const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
+  const MIN_BET = BigNumber.from(0);
+  const MAX_BET = ethers.utils.parseUnits("2.0")
 
-  let p1ConnectFour: ConnectFour
-  let p2ConnectFour: ConnectFour
-  let p3ConnectFour: ConnectFour
+  let p1cf: ConnectFour
+  let p2cf: ConnectFour
+  let p3cf: ConnectFour
 
+  const PLAYER_1_BET_AMOUNT = ethers.utils.parseUnits("1.0")
 
   const MAX_ROW_INDEX = 5
   const COL_MAX_INDEX = 6
@@ -35,10 +43,34 @@ describe("ConnectFour", () => {
 
 
   beforeEach(async () => {
+    const [player1Signer, player2Signer, player3Signer] = await ethers.getSigners(); // why are there three? Why are there any at this point? 
+    const p1 = player1Signer.address;
+    const p2 = player2Signer.address;
+
+    const provider = player1Signer.provider;
+
+    const ConnectFourFactory = await ethers.getContractFactory("ConnectFour");  // what is the factory of these factories? 
+    p1cf = await ConnectFourFactory.deploy(MIN_BET,MAX_BET);
+    await p1cf.deployed(); // can't find purpose of this
+
+    const actualMinBet = await p1cf.minBetAmount(); // is this created automatically from property? 
+    const actualMaxBet = await p1cf.maxBetAmount();
+
+    expect(actualMaxBet).to.equal(MAX_BET);
+    expect(actualMinBet).to.equal(MIN_BET);
   })
 
 
   it("should initialize properly and set Game state", async () => {
+    // gameId correct
+    
+    // game counter increments (if global state is available)
+
+    // board exists on game and is empty
+
+    // gameID in game array
+
+    // check for emission
   })
 
 

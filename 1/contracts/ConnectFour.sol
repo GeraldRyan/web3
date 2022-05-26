@@ -9,13 +9,8 @@ import "hardhat/console.sol";
 /// @notice For info on the rules of Connect Four, see https://en.wikipedia.org/wiki/Connect_Four
 /// @dev See the {Game} struct for details on how the board is represented
 contract ConnectFour {
-    /// @dev represents a single disc in the Connect Four board
     enum Disc { Empty, Player1, Player2 }
-
-    /// @dev status of an individual Game
     enum Status { NonExistent, Initialized, Started, BetWithdrawn }
-
-    /// @dev indicates the direction to check the winning line of 4 discs
     enum WinningDirection { LeftDiagonal, Up, RightDiagonal, Right }
 
     /// @notice struct to represent a Connect Four game between 2 opponents. Each opponent
@@ -40,13 +35,13 @@ contract ConnectFour {
     /// -------------------------
 
     struct Game {
-        address player1;    // address of the player that first initialized the game and chose the betAmount
-        address player2;    // address of the player that started the previously initialized game
-        Disc[42] board;     // array representing the state of board's discs in a 7 column 6 row grid, at first all are empty
-        uint256 betAmount;  // number of wei each player bets on the game; the winner will receive 2 * betAmount
-        Status status;      // various states that denote the lifecycle of a game
-        bool isPlayer1Turn; // true if it is player 1's turn, false if it is player 2's turn. Initially it is player 1's turn
-    }
+        address player1;  
+        address player2;  
+        Disc[42] board;    
+        uint256 betAmount; 
+        Status status;    
+        bool isPlayer1Turn;
+    }   
 
     event GameInitialized(
         uint256 gameId,
@@ -66,24 +61,11 @@ contract ConnectFour {
         uint256 rewardAmount
     );
 
-    /// @notice stores the Game structs for each game, identified by each uint256 game ID
     mapping(uint256 => Game) public games;
-
-    /// @notice the minimum amount of wei that can be bet in a game. Setting a higher value (e.g. 1 ETH) indicates
-    /// this is a contract meant for whales only. Set this lower if you want everyone to participate
     uint256 public minBetAmount;
-
-    /// @notice the maximum amount of wei that can be bet in a game. Set this to ensure people don't lose their shirts :D
     uint256 public maxBetAmount;
-
-    /// @dev A monotonically incrementing counter used for new Game IDs. Starts out at 0, and increments by 1 with every new Game
     uint256 internal gameIdCounter = 0;
 
-    /// @notice Set the minimum and maximum amounts that can be bet on any Games created through
-    /// this contract
-    /// @dev Increase _minBetAmount if you want to attract degenerates, lower _maxBetAmount to keep them away
-    /// @param _minBetAmount the lowest amount a player will be able to bet
-    /// @param _maxBetAmount the largest amount a player will be able to bet
     constructor(uint256 _minBetAmount, uint256 _maxBetAmount) {
         minBetAmount = _minBetAmount;
         maxBetAmount = _maxBetAmount;
@@ -96,6 +78,13 @@ contract ConnectFour {
     /// @dev the returned gameId is a monotonically increasing ID used to interact with this new Game
     /// @return a game ID, which can be used by each player to interact with the new Game
     function initializeGame() external payable returns (uint256) {
+        require(msg.value >= minBetAmount && msg.value <= maxBetAmount, "check bet amt");
+        uint256 gameId = gameIdCounter;
+        gameIdCounter++;
+        Disc[42] memory board;  // side effect
+        games[gameId] = Game(msg.sender, address(0x0), board, msg.value, Status.Initialized, true);
+        emit GameInitialized(gameId, msg.sender, msg.value);
+        return gameId;
     }
 
     /// @notice Start a that has already been initialized by player1. The caller of this function (player2)
