@@ -6,6 +6,7 @@ import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
+require("@nomiclabs/hardhat-web3")
 
 dotenv.config();
 
@@ -18,6 +19,8 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
     console.log(account.address);
   }
 });
+
+task("balance", "Prints an account's balance").setAction(async ()=>{})
 
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
