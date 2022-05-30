@@ -125,7 +125,12 @@ contract ConnectFour {
     /// @param _col the index of the column to place a disc in, valid values are 0 through 6 inclusive
     function playMove(uint256 _gameId, uint256 _col) external {
         Game memory game = games[_gameId];
-        // if (game.isPlayer1Turn == msg.sender)
+        require(msg.sender == game.player1 || msg.sender == game.player2, "You must be a player");
+        if (game.isPlayer1Turn){
+            require(msg.sender == game.player1, "not your turn player2");
+        }
+        else {require(msg.sender != game.player1, "not your turn player1");}
+
     }
 
     /// @notice Withdraws the bet amounts of both players to the recipient for the given game when there exists

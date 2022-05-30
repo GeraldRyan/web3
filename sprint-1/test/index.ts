@@ -172,11 +172,19 @@ describe("ConnectFour", () => {
 
   it("should fail to play move on a column that is out of bounds", async () => {});
 
-  it("should fail to play move when caller is not one of the 2 players in the game", async () => {});
+  it("should fail to play move when caller is not one of the 2 players in the game", async () => {
+      startGame();
+      await expect(p3ConnectFour.playMove(FIRST_GAME_ID, 0)).to.be.reverted;
+  });
 
   it("should fail to play move when column has all of its discs placed", async () => {});
 
-  it("should fail to play move when it is not the caller's turn", async () => {});
+  it("should fail to play move when it is not the caller's turn", async () => {
+    // startGame();
+
+    // await p1ConnectFour.playMove(FIRST_GAME_ID, 0);
+    // expect(await p1ConnectFour.playMove(FIRST_GAME_ID, 0)).to.be.reverted
+  });
 
   // start here- prove it works before doing the fail cases above
   it("should play move correctly for player 1", async () => {
