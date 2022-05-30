@@ -6,3 +6,7 @@ prior to 5/27:
 5/27 - came prepared to code but instead read a lot of docs. Started re-reading overview, and then came to deploying smart contracts, wanted to learn about that, so read on ethereum.org on deploying them. Read all their suggested prereq articles, such as accounts, transactions, EVM, even learned what a trie data structure is. 
 
 Things are making more sense slowly. Will hopefully code next time. 
+
+5/28 - going back, learning basics of hardhat and ethers to get more context
+
+5/29 - 
