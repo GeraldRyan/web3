@@ -1,7 +1,7 @@
 ﻿import { Provider } from "@ethersproject/abstract-provider";
 import { expect } from "chai";
-import { ethers } from "hardhat";  // creates runtime environment
-import '@nomiclabs/hardhat-waffle' // loaded via hardhat.config but here extends typing for vscode
+import { ethers } from "hardhat"; // creates runtime environment
+import "@nomiclabs/hardhat-waffle"; // loaded via hardhat.config but here extends typing for vscode
 import { BigNumber } from "@ethersproject/bignumber";
 import { ConnectFour } from "../typechain";
 
@@ -31,7 +31,7 @@ describe("ConnectFour", () => {
     Right: 3,
   };
 
-  let p1Address: string
+  let p1Address: string;
 
   beforeEach(async () => {
     const [p1Signer, p2Signer, p3Signer, ...addrs] = await ethers.getSigners();
@@ -55,36 +55,61 @@ describe("ConnectFour", () => {
   it("should initialize properly and set Game state", async () => {
     const [p1Signer, p2Signer, p3Signer, ...addrs] = await ethers.getSigners();
     const GAME_ID = 0;
-    await expect(p1ConnectFour.initializeGame({value:0})).to.emit(p1ConnectFour, "GameInitialized").withArgs(0, p1Address, 0)
-    // can we capture individual elements? e.g. gameId?  
+    await expect(p1ConnectFour.initializeGame({ value: 0 }))
+      .to.emit(p1ConnectFour, "GameInitialized")
+      .withArgs(0, p1Address, 0);
+    // can we capture individual elements? e.g. gameId?
 
     const game0 = await p1ConnectFour.games(GAME_ID); // a game is a struct in solidity but here it's an array
-    console.log("GAME", game0)
+    console.log("GAME", game0);
 
     expect(game0.player1).to.equal(p1Address);
     expect(game0.player2).to.equal(ZERO_ADDRESS);
     expect(game0.betAmount).to.equal(0);
     expect(game0.status).to.equal(INITIALIZED_STATUS);
 
-    let contractBalance = await provider.getBalance(p1ConnectFour.address)
-    console.log("contract balance", p1ConnectFour.address)
-    expect(contractBalance).to.equal(0);   
-
-    
-    // game counter increments (if global state is available)
-
-    // expect(await p1ConnectFour.games(gameId));
-
-    // board exists on game and is empty
-
-    // gameID in game array
-
-    // check for emission
+    let contractBalance = await provider.getBalance(p1ConnectFour.address);
+    console.log("contract balance", p1ConnectFour.address);
+    expect(contractBalance).to.equal(0);
   });
 
-  it("should initialize 2 games", async () => {});
+  it("should initialize 2 games", async () => {
+    // init game 1
+    await expect(p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT }))
+      .to.emit(p1ConnectFour, "GameInitialized")
+      .withArgs(FIRST_GAME_ID, p1Address, PLAYER_1_BET_AMOUNT);
 
-  it("should fail to start game if incorrect value sent", async () => {});
+    let game = await p1ConnectFour.games(FIRST_GAME_ID);
+
+    expect(game.player1).to.equal(p1Address);
+    expect(game.player2).to.equal(ZERO_ADDRESS);
+    expect(game.betAmount).to.equal(PLAYER_1_BET_AMOUNT);
+    expect(game.status).to.equal(INITIALIZED_STATUS);
+    let contractBalance = await provider.getBalance(p1ConnectFour.address);
+    expect(contractBalance).to.equal(PLAYER_1_BET_AMOUNT);
+
+    // init game 2
+    await expect(p1ConnectFour.initializeGame({value: PLAYER_1_BET_AMOUNT}))
+    .to.emit(p1ConnectFour, "GameInitialized")
+    .withArgs(1, p1Address, PLAYER_1_BET_AMOUNT)
+
+    game = await p1ConnectFour.games(1)
+    
+    expect(game.player1).to.equal(p1Address)
+    expect(game.player2).to.equal(ZERO_ADDRESS)
+    expect(game.betAmount).to.equal(PLAYER_1_BET_AMOUNT)
+    expect(game.status).to.equal(INITIALIZED_STATUS)
+    
+
+    contractBalance = await provider.getBalance(p1ConnectFour.address)
+    expect(contractBalance).to.equal(PLAYER_1_BET_AMOUNT.mul(2))
+  });
+
+  it("should fail to start game if incorrect value sent", async () => {
+    await (await p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT })).wait()
+    await expect(p2ConnectFour.startGame(FIRST_GAME_ID, { value: -1 }))
+      .to.be.reverted
+  });
 
   it("should fail to start game when called by the player who initialized it", async () => {});
 
