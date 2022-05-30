@@ -68,10 +68,17 @@ contract ConnectFour {
         uint256 rewardAmount
     );
 
+    event BoardUpdated(uint256 gameId, Disc player, uint256 boardIndex);
+
     mapping(uint256 => Game) public games;
     uint256 public minBetAmount;
     uint256 public maxBetAmount;
     uint256 internal gameIdCounter = 0;
+
+    uint8 internal constant MIN_ROW_INDEX = 0;
+    uint8 internal constant ROW_MAX_INDEX = 5;
+    uint8 internal constant COL_MIN_INDEX = 6;
+    uint8 internal constant COL_MAX_INDEX = 6;
 
     constructor(uint256 _minBetAmount, uint256 _maxBetAmount) {
         minBetAmount = _minBetAmount;
@@ -86,6 +93,9 @@ contract ConnectFour {
         uint256 gameId = gameIdCounter;
         gameIdCounter++;
         Disc[42] memory board; // side effect
+        for (uint256 n=0; n<board.length; n++){
+            board[n] = Disc.Empty;
+        }
         games[gameId] = Game(
             msg.sender,
             address(0x0),
@@ -125,14 +135,38 @@ contract ConnectFour {
     /// @param _col the index of the column to place a disc in, valid values are 0 through 6 inclusive
     function playMove(uint256 _gameId, uint256 _col) external {
         Game memory game = games[_gameId];
-        require(games[_gameId].status == Status.Started, "Game has not yet started");
-        require(msg.sender == game.player1 || msg.sender == game.player2, "You must be a player");
-        if (game.isPlayer1Turn){
+        require(
+            games[_gameId].status == Status.Started,
+            "Game has not yet started"
+        );
+        require(
+            msg.sender == game.player1 || msg.sender == game.player2,
+            "You must be a player"
+        );
+        if (game.isPlayer1Turn) {
             require(msg.sender == game.player1, "not your turn player2");
+        } else {
+            require(msg.sender != game.player1, "not your turn player1");
         }
-        else {require(msg.sender != game.player1, "not your turn player1");}
-        games[_gameId].isPlayer1Turn = !games[_gameId].isPlayer1Turn;
 
+        // success case
+        Disc disk = game.isPlayer1Turn ? Disc.Player1 : Disc.Player2;
+        for (uint256 row = MIN_ROW_INDEX; row <=ROW_MAX_INDEX; row++){
+            uint256 index = boardIndex(_col, row);
+
+            if (game.board[index] == Disc.Empty) // implicitly? 
+            {
+                games[_gameId].board[index] = disk;
+                emit BoardUpdated(_gameId, disk, index);
+                games[_gameId].isPlayer1Turn = !games[_gameId].isPlayer1Turn;
+                break;
+            }
+            else if (row == ROW_MAX_INDEX){
+                revert("ConnectFour: column full");
+            }
+        }
+
+        
     }
 
     /// @notice Withdraws the bet amounts of both players to the recipient for the given game when there exists
@@ -165,8 +199,8 @@ contract ConnectFour {
         pure
         returns (uint256)
     {
-        require(_col > 6 || _col < 0, "Column index out of range");
-        require(_row > 5 || _row < 0, "Row index out of range");
+        require(_col < 6 || _col >= 0, "Column index out of range");
+        require(_row < 5 || _row >= 0, "Row index out of range");
         return (_row * 7 + _col);
     }
 }

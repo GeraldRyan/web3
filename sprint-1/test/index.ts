@@ -171,10 +171,19 @@ describe("ConnectFour", () => {
   it("should fail to play move on a game that doesn't exist", async () => {
       await startGame();
       await expect(p1ConnectFour.playMove(FIRST_GAME_ID, 0)).to.not.be.reverted;
-      await expect(p1ConnectFour.playMove(4, 0)).to.be.reverted;
+      await expect(p1ConnectFour.playMove(4, 0)).to.be.reverted; 
   });
 
-  it("should fail to play move on a column that is out of bounds", async () => {});
+  it("should fail to play move on a column that is out of bounds", async () => {
+      await startGame();
+      await p1ConnectFour.playMove(FIRST_GAME_ID, 0);
+      await p2ConnectFour.playMove(FIRST_GAME_ID, 0);
+      await p1ConnectFour.playMove(FIRST_GAME_ID, 0);
+      await p2ConnectFour.playMove(FIRST_GAME_ID, 0);
+      await p1ConnectFour.playMove(FIRST_GAME_ID, 0);
+      await p2ConnectFour.playMove(FIRST_GAME_ID, 0);
+      await expect(p1ConnectFour.playMove(FIRST_GAME_ID, 0)).to.be.reverted;
+  });
 
   it("should fail to play move when caller is not one of the 2 players in the game", async () => {
       await startGame();
