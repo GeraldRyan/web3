@@ -173,24 +173,24 @@ describe("ConnectFour", () => {
   it("should fail to play move on a column that is out of bounds", async () => {});
 
   it("should fail to play move when caller is not one of the 2 players in the game", async () => {
-      startGame();
+      await startGame();
       await expect(p3ConnectFour.playMove(FIRST_GAME_ID, 0)).to.be.reverted;
   });
 
   it("should fail to play move when column has all of its discs placed", async () => {});
 
   it("should fail to play move when it is not the caller's turn", async () => {
-    // startGame();
+    // await startGame();
 
     // await p1ConnectFour.playMove(FIRST_GAME_ID, 0);
-    // expect(await p1ConnectFour.playMove(FIRST_GAME_ID, 0)).to.be.reverted
+    // await expect(p1ConnectFour.playMove(FIRST_GAME_ID, 0)).to.be.reverted
   });
 
   // start here- prove it works before doing the fail cases above
   it("should play move correctly for player 1", async () => {
       startGame();
 
-      await p1ConnectFour.playMove(FIRST_GAME_ID, 0);
+    //   await p1ConnectFour.playMove(FIRST_GAME_ID, 0);
 
   });
 
@@ -215,7 +215,9 @@ describe("ConnectFour", () => {
   it("should correctly claim reward in right diagonal direction", async () => {});
 
   const startGame = async () => {
+    const [p1Signer, p2Signer, p3Signer, ...addrs] = await ethers.getSigners();
     await (await p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT })).wait()
+    p2ConnectFour = p1ConnectFour.connect(p2Signer);
     await (await p2ConnectFour.startGame(FIRST_GAME_ID, { value: PLAYER_1_BET_AMOUNT }))
   }
 });

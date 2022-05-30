@@ -110,8 +110,8 @@ contract ConnectFour {
             game.status == Status.Initialized,
             "game must be in initialzied status"
         );
-        games[_gameId].status = Status.Started;
         games[_gameId].player2 = msg.sender;
+        games[_gameId].status = Status.Started;
         emit GameStarted(_gameId, msg.sender);
     }
 
@@ -125,11 +125,12 @@ contract ConnectFour {
     /// @param _col the index of the column to place a disc in, valid values are 0 through 6 inclusive
     function playMove(uint256 _gameId, uint256 _col) external {
         Game memory game = games[_gameId];
+        require(games[_gameId].status == Status.Started, "Game has not yet started");
         require(msg.sender == game.player1 || msg.sender == game.player2, "You must be a player");
-        if (game.isPlayer1Turn){
-            require(msg.sender == game.player1, "not your turn player2");
-        }
-        else {require(msg.sender != game.player1, "not your turn player1");}
+        // if (game.isPlayer1Turn){
+        //     require(msg.sender == game.player1, "not your turn player2");
+        // }
+        // else {require(msg.sender != game.player1, "not your turn player1");}
 
     }
 
