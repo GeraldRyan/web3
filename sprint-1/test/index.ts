@@ -153,14 +153,19 @@ describe("ConnectFour", () => {
     expect(game.status).to.equal(STARTED_STATUS);
   });
 
+  it("started game should emit event", async ()=>{
+    await (await p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT })).wait()
+    await expect(p2ConnectFour.startGame(FIRST_GAME_ID, { value: PLAYER_1_BET_AMOUNT }))
+      .to.emit(p1ConnectFour, "GameStarted").withArgs(FIRST_GAME_ID, p2Address);
+  })
+
+  // but first test that it succeeds in playing one that has started, otherwise we get false positives.
   it("should fail to play move on game that has not started yet", async () => {
     await p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT });
     await p2ConnectFour.startGame(FIRST_GAME_ID, {
       value: PLAYER_1_BET_AMOUNT,
     });
     let game = await p1ConnectFour.games(FIRST_GAME_ID);
-
-    
   });
 
   it("should fail to play move on a game that doesn't exist", async () => {});
@@ -173,7 +178,13 @@ describe("ConnectFour", () => {
 
   it("should fail to play move when it is not the caller's turn", async () => {});
 
-  it("should play move correctly for player 1", async () => {});
+  // start here- prove it works before doing the fail cases above
+  it("should play move correctly for player 1", async () => {
+      startGame();
+
+      await p1ConnectFour.playMove(FIRST_GAME_ID, 0);
+
+  });
 
   it("should play move correctly for player 2", async () => {});
 
@@ -194,4 +205,9 @@ describe("ConnectFour", () => {
   it("should correctly claim reward in left diagonal direction", async () => {});
 
   it("should correctly claim reward in right diagonal direction", async () => {});
+
+  const startGame = async () => {
+    await (await p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT })).wait()
+    await (await p2ConnectFour.startGame(FIRST_GAME_ID, { value: PLAYER_1_BET_AMOUNT }))
+  }
 });

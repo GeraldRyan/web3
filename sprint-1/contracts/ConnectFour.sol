@@ -9,9 +9,23 @@ import "hardhat/console.sol";
 /// @notice For info on the rules of Connect Four, see https://en.wikipedia.org/wiki/Connect_Four
 /// @dev See the {Game} struct for details on how the board is represented
 contract ConnectFour {
-    enum Disc { Empty, Player1, Player2 }
-    enum Status { NonExistent, Initialized, Started, BetWithdrawn }
-    enum WinningDirection { LeftDiagonal, Up, RightDiagonal, Right }
+    enum Disc {
+        Empty,
+        Player1,
+        Player2
+    }
+    enum Status {
+        NonExistent,
+        Initialized,
+        Started,
+        BetWithdrawn
+    }
+    enum WinningDirection {
+        LeftDiagonal,
+        Up,
+        RightDiagonal,
+        Right
+    }
 
     /// @notice struct to represent a Connect Four game between 2 opponents. Each opponent
     /// enters the game by sending the betAmount, so that each game will have a pool of 2 * betAmount
@@ -35,24 +49,17 @@ contract ConnectFour {
     /// -------------------------
 
     struct Game {
-        address player1;  
-        address player2;  
-        Disc[42] board;    
-        uint256 betAmount; 
-        Status status;    
+        address player1;
+        address player2;
+        Disc[42] board;
+        uint256 betAmount;
+        Status status;
         bool isPlayer1Turn;
-    }   
+    }
 
-    event GameInitialized(
-        uint256 gameId,
-        address player1,
-        uint256 betAmount
-    );
+    event GameInitialized(uint256 gameId, address player1, uint256 betAmount);
 
-    event GameStarted(
-        uint256 gameId,
-        address player2
-    );
+    event GameStarted(uint256 gameId, address player2);
 
     event RewardClaimed(
         uint256 gameId,
@@ -72,11 +79,21 @@ contract ConnectFour {
     }
 
     function initializeGame() external payable returns (uint256) {
-        require(msg.value >= minBetAmount && msg.value <= maxBetAmount, "check bet amt");
+        require(
+            msg.value >= minBetAmount && msg.value <= maxBetAmount,
+            "check bet amt"
+        );
         uint256 gameId = gameIdCounter;
         gameIdCounter++;
-        Disc[42] memory board;  // side effect
-        games[gameId] = Game(msg.sender, address(0x0), board, msg.value, Status.Initialized, true);
+        Disc[42] memory board; // side effect
+        games[gameId] = Game(
+            msg.sender,
+            address(0x0),
+            board,
+            msg.value,
+            Status.Initialized,
+            true
+        );
         emit GameInitialized(gameId, msg.sender, msg.value);
         return gameId;
     }
@@ -89,11 +106,13 @@ contract ConnectFour {
         Game memory game = games[_gameId];
         require(msg.sender != game.player1, "can't play against self");
         require(msg.value == game.betAmount, "must wager same as p1");
-        require(game.status == Status.Initialized, "game must be in initialzied status");
+        require(
+            game.status == Status.Initialized,
+            "game must be in initialzied status"
+        );
         games[_gameId].status = Status.Started;
         games[_gameId].player2 = msg.sender;
-        // TOOD further implemenmtation
-
+        emit GameStarted(_gameId, msg.sender);
     }
 
     /// @notice Place a disc in the given column with the given Game. player1 and player2 will take
@@ -105,6 +124,8 @@ contract ConnectFour {
     /// @param _gameId the game's ID, returned when player1 called ConnectFour.initializeGame
     /// @param _col the index of the column to place a disc in, valid values are 0 through 6 inclusive
     function playMove(uint256 _gameId, uint256 _col) external {
+        Game memory game = games[_gameId];
+        // if (game.isPlayer1Turn == msg.sender)
     }
 
     /// @notice Withdraws the bet amounts of both players to the recipient for the given game when there exists
@@ -119,17 +140,26 @@ contract ConnectFour {
     /// @param _startingWinDiscCol the column index of one of the two end chips of the four-in-a-row
     /// @param _startingWinDiscRow the row index of one of the two end chips of the four-in-a-row
     /// @param _direction one of 4 possible directions in which to move when verifying the four-in-a-row
-    function claimReward(uint256 _gameId, address payable _recipient, uint256 _startingWinDiscCol, uint256 _startingWinDiscRow, WinningDirection _direction) external {
-    }
+    function claimReward(
+        uint256 _gameId,
+        address payable _recipient,
+        uint256 _startingWinDiscCol,
+        uint256 _startingWinDiscRow,
+        WinningDirection _direction
+    ) external {}
 
     /// @notice Return the index of a disc in the board, given its column and row index (0-indexed)
     /// @dev this function will throw if the column or row are out of bounds
     /// @param _col the index of the column, valid values are 0 through 6 inclusive
     /// @param _row the index of the row, valid values are 0 through 5 inclusive
     /// @return the index of the board corresponding to these coordinates
-    function boardIndex(uint256 _col, uint256 _row) public pure returns (uint256) {
-        require (_col > 6 || _col < 0, "Column index out of range");
-        require (_row > 5 || _row < 0, "Row index out of range");
+    function boardIndex(uint256 _col, uint256 _row)
+        public
+        pure
+        returns (uint256)
+    {
+        require(_col > 6 || _col < 0, "Column index out of range");
+        require(_row > 5 || _row < 0, "Row index out of range");
         return (_row * 7 + _col);
     }
 }
