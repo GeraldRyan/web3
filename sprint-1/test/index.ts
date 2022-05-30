@@ -119,14 +119,22 @@ describe("ConnectFour", () => {
       .withArgs(FIRST_GAME_ID, p1Address, PLAYER_1_BET_AMOUNT);
 
     let game = await p1ConnectFour.games(FIRST_GAME_ID);
-    await expect(p1ConnectFour.startGame(FIRST_GAME_ID, {value: PLAYER_1_BET_AMOUNT})).to.be.reverted
+    await expect(
+      p1ConnectFour.startGame(FIRST_GAME_ID, { value: PLAYER_1_BET_AMOUNT })
+    ).to.be.reverted;
   });
 
   it("should fail to start a game that doesn't exist", async () => {
-      await expect (p2ConnectFour.startGame(4, {value: PLAYER_1_BET_AMOUNT})).to.be.reverted;
+    await expect(p2ConnectFour.startGame(4, { value: PLAYER_1_BET_AMOUNT })).to
+      .be.reverted;
   });
 
-  it("should fail to start game when it is not in the Initialized state", async () => {});
+  it("should fail to start game when it is not in the Initialized state", async () => {
+    await (await (p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT }))).wait();
+    await (await p2ConnectFour.startGame(FIRST_GAME_ID, { value: PLAYER_1_BET_AMOUNT }));
+    await expect(p2ConnectFour.startGame(FIRST_GAME_ID, { value: PLAYER_1_BET_AMOUNT })).to
+      .be.reverted;
+  });
 
   it("should start game in correct state", async () => {});
 

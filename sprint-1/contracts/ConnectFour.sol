@@ -89,6 +89,8 @@ contract ConnectFour {
         Game memory game = games[_gameId];
         require(msg.sender != game.player1, "can't play against self");
         require(msg.value == game.betAmount, "must wager same as p1");
+        require(game.status == Status.Initialized, "game must be in initialzied status");
+        games[_gameId].status = Status.Started;
         // TOOD further implemenmtation
 
     }
