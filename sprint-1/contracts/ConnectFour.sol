@@ -93,9 +93,6 @@ contract ConnectFour {
         uint256 gameId = gameIdCounter;
         gameIdCounter++;
         Disc[42] memory board; // side effect
-        for (uint256 n=0; n<board.length; n++){
-            board[n] = Disc.Empty;
-        }
         games[gameId] = Game(
             msg.sender,
             address(0x0),
@@ -187,7 +184,65 @@ contract ConnectFour {
         uint256 _startingWinDiscCol,
         uint256 _startingWinDiscRow,
         WinningDirection _direction
-    ) external {}
+    ) external {
+        // shamelessly copied
+        require(
+            games[_gameId].status == Status.Started,
+            "ConnectFour: game does not exist or has not started or is finished"
+        );
+
+        Game memory game = games[_gameId];
+
+        // used to verify that the discs were previously placed by the correct player
+        Disc callerDisc = game.player1 == msg.sender
+            ? Disc.Player1
+            : Disc.Player2;
+
+        uint256 currCol = _startingWinDiscCol;
+        uint256 currRow = _startingWinDiscRow;
+        uint256 index;
+        // we iterate 3 times here, and do a final check out of the loop
+        for (uint256 i = 0; i < 3; i++) {
+            index = boardIndex(currCol, currRow);
+            // if we made it to this point, it means we have a valid column and row
+            // because it would have reverted inside boardIndex
+            require(
+                game.board[index] == callerDisc,
+                "ConnectFour: the four in a row must only contain caller's discs"
+            );
+            if (_direction == WinningDirection.LeftDiagonal) {
+                currCol -= 1;
+                currRow += 1;
+            } else if (_direction == WinningDirection.Up) {
+                currRow += 1;
+            } else if (_direction == WinningDirection.RightDiagonal) {
+                currCol += 1;
+                currRow += 1;
+            } else if (_direction == WinningDirection.Right) {
+                currCol += 1;
+            } else {
+                revert("Unhandled enum");
+            }
+        }
+        //last check to confirm 4 chips
+        index = boardIndex(currCol, currRow);
+        require(
+            game.board[index] == callerDisc,
+            "ConnectFour: the four in a row must only contain caller's discs"
+        );
+
+        // if we've made it to this point, then we've know we have a valid set of 4 winning disc, so we should
+        // end the game and payout the winner
+
+        uint256 rewardAmount = 2 * game.betAmount;
+        (bool sent, ) = _recipient.call{value: rewardAmount}("");
+        require(sent, "ConnectFour: reward transfer to recipient failed");
+
+        /// @notice Game status changes AFTER reward transfer is successful, otherwise game won't be playable is case of transfer failure
+        games[_gameId].status = Status.BetWithdrawn;
+
+        emit RewardClaimed(_gameId, msg.sender, _recipient, rewardAmount);
+    }
 
     /// @notice Return the index of a disc in the board, given its column and row index (0-indexed)
     /// @dev this function will throw if the column or row are out of bounds
