@@ -89,6 +89,8 @@ contract ConnectFour {
         Game memory game = games[_gameId];
         require(msg.sender != game.player1, "can't play against self");
         require(msg.value == game.betAmount, "must wager same as p1");
+        // TOOD further implemenmtation
+
     }
 
     /// @notice Place a disc in the given column with the given Game. player1 and player2 will take
