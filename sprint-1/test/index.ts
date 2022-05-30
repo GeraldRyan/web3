@@ -180,10 +180,13 @@ describe("ConnectFour", () => {
   it("should fail to play move when column has all of its discs placed", async () => {});
 
   it("should fail to play move when it is not the caller's turn", async () => {
-    // await startGame();
+    await startGame();
 
-    // await p1ConnectFour.playMove(FIRST_GAME_ID, 0);
-    // await expect(p1ConnectFour.playMove(FIRST_GAME_ID, 0)).to.be.reverted
+    await p1ConnectFour.playMove(FIRST_GAME_ID, 0);
+    await expect(p1ConnectFour.playMove(FIRST_GAME_ID, 0)).to.be.reverted
+    await expect(p2ConnectFour.playMove(FIRST_GAME_ID, 0)).to.not.be.reverted;
+    await expect(p2ConnectFour.playMove(FIRST_GAME_ID, 0)).to.be.reverted;
+
   });
 
   // start here- prove it works before doing the fail cases above

@@ -127,10 +127,11 @@ contract ConnectFour {
         Game memory game = games[_gameId];
         require(games[_gameId].status == Status.Started, "Game has not yet started");
         require(msg.sender == game.player1 || msg.sender == game.player2, "You must be a player");
-        // if (game.isPlayer1Turn){
-        //     require(msg.sender == game.player1, "not your turn player2");
-        // }
-        // else {require(msg.sender != game.player1, "not your turn player1");}
+        if (game.isPlayer1Turn){
+            require(msg.sender == game.player1, "not your turn player2");
+        }
+        else {require(msg.sender != game.player1, "not your turn player1");}
+        games[_gameId].isPlayer1Turn = !games[_gameId].isPlayer1Turn;
 
     }
 
