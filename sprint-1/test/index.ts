@@ -168,7 +168,11 @@ describe("ConnectFour", () => {
     let game = await p1ConnectFour.games(FIRST_GAME_ID);
   });
 
-  it("should fail to play move on a game that doesn't exist", async () => {});
+  it("should fail to play move on a game that doesn't exist", async () => {
+      await startGame();
+      await expect(p1ConnectFour.playMove(FIRST_GAME_ID, 0)).to.not.be.reverted;
+      await expect(p1ConnectFour.playMove(4, 0)).to.be.reverted;
+  });
 
   it("should fail to play move on a column that is out of bounds", async () => {});
 
