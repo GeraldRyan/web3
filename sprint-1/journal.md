@@ -9,4 +9,4 @@ Things are making more sense slowly. Will hopefully code next time.
 
 5/28 - going back, learning basics of hardhat and ethers to get more context
 
-5/29 - 
+5/30 - learning more about tests 
