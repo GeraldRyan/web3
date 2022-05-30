@@ -86,6 +86,9 @@ contract ConnectFour {
     /// may call ConnectFour.playMove to place their discs
     /// @param _gameId the game's ID, returned when player1 called ConnectFour.initializeGame
     function startGame(uint256 _gameId) external payable {
+        Game memory game = games[_gameId];
+        require(msg.sender != game.player1, "can't play against self");
+        require(msg.value == game.betAmount, "must wager same as p1");
     }
 
     /// @notice Place a disc in the given column with the given Game. player1 and player2 will take

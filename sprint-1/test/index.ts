@@ -89,29 +89,38 @@ describe("ConnectFour", () => {
     expect(contractBalance).to.equal(PLAYER_1_BET_AMOUNT);
 
     // init game 2
-    await expect(p1ConnectFour.initializeGame({value: PLAYER_1_BET_AMOUNT}))
-    .to.emit(p1ConnectFour, "GameInitialized")
-    .withArgs(1, p1Address, PLAYER_1_BET_AMOUNT)
+    await expect(p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT }))
+      .to.emit(p1ConnectFour, "GameInitialized")
+      .withArgs(1, p1Address, PLAYER_1_BET_AMOUNT);
 
-    game = await p1ConnectFour.games(1)
-    
-    expect(game.player1).to.equal(p1Address)
-    expect(game.player2).to.equal(ZERO_ADDRESS)
-    expect(game.betAmount).to.equal(PLAYER_1_BET_AMOUNT)
-    expect(game.status).to.equal(INITIALIZED_STATUS)
-    
+    game = await p1ConnectFour.games(1);
 
-    contractBalance = await provider.getBalance(p1ConnectFour.address)
-    expect(contractBalance).to.equal(PLAYER_1_BET_AMOUNT.mul(2))
+    expect(game.player1).to.equal(p1Address);
+    expect(game.player2).to.equal(ZERO_ADDRESS);
+    expect(game.betAmount).to.equal(PLAYER_1_BET_AMOUNT);
+    expect(game.status).to.equal(INITIALIZED_STATUS);
+
+    contractBalance = await provider.getBalance(p1ConnectFour.address);
+    expect(contractBalance).to.equal(PLAYER_1_BET_AMOUNT.mul(2));
   });
 
   it("should fail to start game if incorrect value sent", async () => {
-    await (await p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT })).wait()
-    await expect(p2ConnectFour.startGame(FIRST_GAME_ID, { value: -1 }))
-      .to.be.reverted
+    await (
+      await p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT })
+    ).wait();
+    // NOT YET IMPLEMENTED
+    await expect(p2ConnectFour.startGame(FIRST_GAME_ID, { value: 0 })).to.be
+      .reverted;
   });
 
-  it("should fail to start game when called by the player who initialized it", async () => {});
+  it("should fail to start game when called by the player who initialized it", async () => {
+    await expect(p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT }))
+      .to.emit(p1ConnectFour, "GameInitialized")
+      .withArgs(FIRST_GAME_ID, p1Address, PLAYER_1_BET_AMOUNT);
+
+    let game = await p1ConnectFour.games(FIRST_GAME_ID);
+    await expect(p1ConnectFour.startGame(FIRST_GAME_ID, {value: PLAYER_1_BET_AMOUNT})).to.be.reverted
+  });
 
   it("should fail to start a game that doesn't exist", async () => {});
 
