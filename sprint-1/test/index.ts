@@ -32,11 +32,13 @@ describe("ConnectFour", () => {
   };
 
   let p1Address: string;
+  let p2Address: string;
 
   beforeEach(async () => {
     const [p1Signer, p2Signer, p3Signer, ...addrs] = await ethers.getSigners();
     provider = p1Signer.provider as Provider; // handle undefined
     p1Address = p1Signer.address;
+    p2Address = p2Signer.address;
 
     const ConnectFourFactory = await ethers.getContractFactory("ConnectFour"); // what is the factory of these factories?
     p1ConnectFour = await ConnectFourFactory.deploy(MIN_BET, MAX_BET);
@@ -61,7 +63,6 @@ describe("ConnectFour", () => {
     // can we capture individual elements? e.g. gameId?
 
     const game0 = await p1ConnectFour.games(GAME_ID); // a game is a struct in solidity but here it's an array
-    console.log("GAME", game0);
 
     expect(game0.player1).to.equal(p1Address);
     expect(game0.player2).to.equal(ZERO_ADDRESS);
@@ -69,7 +70,6 @@ describe("ConnectFour", () => {
     expect(game0.status).to.equal(INITIALIZED_STATUS);
 
     let contractBalance = await provider.getBalance(p1ConnectFour.address);
-    console.log("contract balance", p1ConnectFour.address);
     expect(contractBalance).to.equal(0);
   });
 
@@ -130,15 +130,38 @@ describe("ConnectFour", () => {
   });
 
   it("should fail to start game when it is not in the Initialized state", async () => {
-    await (await (p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT }))).wait();
-    await (await p2ConnectFour.startGame(FIRST_GAME_ID, { value: PLAYER_1_BET_AMOUNT }));
-    await expect(p2ConnectFour.startGame(FIRST_GAME_ID, { value: PLAYER_1_BET_AMOUNT })).to
-      .be.reverted;
+    await p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT });
+    await await p2ConnectFour.startGame(FIRST_GAME_ID, {
+      value: PLAYER_1_BET_AMOUNT,
+    });
+    await expect(
+      p2ConnectFour.startGame(FIRST_GAME_ID, { value: PLAYER_1_BET_AMOUNT })
+    ).to.be.reverted;
   });
 
-  it("should start game in correct state", async () => {});
+  it("should start game in correct state", async () => {
+    await p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT });
+    await p2ConnectFour.startGame(FIRST_GAME_ID, {
+      value: PLAYER_1_BET_AMOUNT,
+    });
+    let game = await p1ConnectFour.games(FIRST_GAME_ID);
 
-  it("should fail to play move on game that has not started yet", async () => {});
+    // copied from solution
+    expect(game.player1).to.equal(p1Address);
+    expect(game.player2).to.equal(p2Address);
+    expect(game.betAmount).to.equal(PLAYER_1_BET_AMOUNT);
+    expect(game.status).to.equal(STARTED_STATUS);
+  });
+
+  it("should fail to play move on game that has not started yet", async () => {
+    await p1ConnectFour.initializeGame({ value: PLAYER_1_BET_AMOUNT });
+    await p2ConnectFour.startGame(FIRST_GAME_ID, {
+      value: PLAYER_1_BET_AMOUNT,
+    });
+    let game = await p1ConnectFour.games(FIRST_GAME_ID);
+
+    
+  });
 
   it("should fail to play move on a game that doesn't exist", async () => {});
 

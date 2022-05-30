@@ -91,6 +91,7 @@ contract ConnectFour {
         require(msg.value == game.betAmount, "must wager same as p1");
         require(game.status == Status.Initialized, "game must be in initialzied status");
         games[_gameId].status = Status.Started;
+        games[_gameId].player2 = msg.sender;
         // TOOD further implemenmtation
 
     }
