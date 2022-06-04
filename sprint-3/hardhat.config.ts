@@ -1,13 +1,11 @@
 import * as dotenv from "dotenv";
 
-import "@nomiclabs/hardhat-web3";
 import { HardhatUserConfig, task } from "hardhat/config";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
-
 
 dotenv.config();
 
@@ -21,19 +19,11 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   }
 });
 
-task("balance", "Prints an account's balance")
-.addParam("account", "The account's address")
-.setAction(async (taskArgs, hre)=>{
-  const account = hre.web3.utils.toChecksumAddress(taskArgs.account)
-  const balance = await hre.web3.eth.getBalance(account);
-  console.log("Balance: ", hre.web3.utils.fromWei(balance, "ether"), "ETH")
-})
-
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.6",
+  solidity: "0.8.4",
   networks: {
     ropsten: {
       url: process.env.ROPSTEN_URL || "",

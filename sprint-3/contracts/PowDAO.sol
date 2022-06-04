@@ -93,7 +93,7 @@ contract PowDAO {
     // CONSTRUCTOR
     // ***************
     // Members imported as an array. Only members can vote on a proposal.
-    constructor(address[] memory approvedMembers) public {
+    constructor(address[] memory approvedMembers) {
         for (uint256 i = 0; i < approvedMembers.length; i++) {
             members[approvedMembers[i]] = Member(1, true, 0);
         }
@@ -147,7 +147,8 @@ contract PowDAO {
         uint256 allowanceAvailable = _payoutTotals[addressOfProposer];
         require(allowanceAvailable > 0, "You do not have any funds available.");
 
-        addressOfProposer.call{value: allowanceAvailable}("");
+        (bool success,) = addressOfProposer.call{value: allowanceAvailable}("");
+        require(success);
         _decreasePayout(addressOfProposer, allowanceAvailable);
         // console.log("transfer success");
         emit Withdraw(addressOfProposer, allowanceAvailable);
