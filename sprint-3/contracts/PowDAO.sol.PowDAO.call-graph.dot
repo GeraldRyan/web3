@@ -1,0 +1,56 @@
+strict digraph {
+subgraph cluster_1086_PowDAO {
+label = "PowDAO"
+"1086_kickMember" [label="kickMember"]
+"1086_getCurrentTime" [label="getCurrentTime"]
+"1086_receive" [label="receive"]
+"1086_processProposal" [label="processProposal"]
+"1086__cancelProposal" [label="_cancelProposal"]
+"1086_getProposalFlags" [label="getProposalFlags"]
+"1086_payout" [label="payout"]
+"1086_slitherConstructorVariables" [label="slitherConstructorVariables"]
+"1086__increasePayout" [label="_increasePayout"]
+"1086_getPayout" [label="getPayout"]
+"1086__submitProposal" [label="_submitProposal"]
+"1086_submitVote" [label="submitVote"]
+"1086_max" [label="max"]
+"1086_hasVotingPeriodExpired" [label="hasVotingPeriodExpired"]
+"1086_addMember" [label="addMember"]
+"1086__decreasePayout" [label="_decreasePayout"]
+"1086_submitProposal" [label="submitProposal"]
+"1086_constructor" [label="constructor"]
+"1086__submitMemberProposal" [label="_submitMemberProposal"]
+"1086_getMemberProposalVote" [label="getMemberProposalVote"]
+"1086_kickMember" -> "1086__submitMemberProposal"
+"1086_getPayout" -> "1086__decreasePayout"
+"1086_submitProposal" -> "1086__submitProposal"
+"1086_addMember" -> "1086_onlyMember"
+"1086_kickMember" -> "1086_onlyMember"
+"1086_submitVote" -> "1086_getCurrentTime"
+"1086_submitVote" -> "1086_hasVotingPeriodExpired"
+"1086_submitVote" -> "1086_onlyMember"
+"1086_hasVotingPeriodExpired" -> "1086_getCurrentTime"
+"1086_processProposal" -> "1086__increasePayout"
+"1086_processProposal" -> "1086_getCurrentTime"
+"1086_processProposal" -> "1086_hasVotingPeriodExpired"
+"1086_addMember" -> "1086__submitMemberProposal"
+"1086__cancelProposal" -> "1086_onlyMember"
+"1086_processProposal" -> "1086_onlyMember"
+"1086_processProposal" -> "1086__cancelProposal"
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"revert(string)" 
+"balance(address)" 
+"require(bool,string)" 
+"1086__submitMemberProposal" -> "revert(string)"
+"1086_getMemberProposalVote" -> "require(bool,string)"
+"1086_submitVote" -> "require(bool,string)"
+"1086_processProposal" -> "balance(address)"
+"1086_getPayout" -> "require(bool,string)"
+"1086__decreasePayout" -> "require(bool,string)"
+"1086__cancelProposal" -> "require(bool,string)"
+"1086_submitProposal" -> "require(bool,string)"
+"1086_processProposal" -> "require(bool,string)"
+"1086_processProposal" -> "revert(string)"
+}
+}

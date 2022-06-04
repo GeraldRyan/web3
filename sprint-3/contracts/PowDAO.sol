@@ -146,11 +146,12 @@ contract PowDAO {
         // Get the available allowance first amd store in uint256.
         uint256 allowanceAvailable = _payoutTotals[addressOfProposer];
         require(allowanceAvailable > 0, "You do not have any funds available.");
-
-        (bool success,) = addressOfProposer.call{value: allowanceAvailable}("");
-        require(success);
         _decreasePayout(addressOfProposer, allowanceAvailable);
-        // console.log("transfer success");
+
+        //slither-disable-next-line arbitrary-send
+        (bool success,) = addressOfProposer.call{value: allowanceAvailable}("");
+        require(success, "Failed to send eth");
+
         emit Withdraw(addressOfProposer, allowanceAvailable);
         return true;
     }
@@ -222,7 +223,7 @@ contract PowDAO {
             members[applicant].jailed == 0,
             "proposal applicant must not be jailed"
         );
-        bool[5] memory flags; // [processed, didPass, cancelled, memberAdd, memberKick]
+        bool[5] memory flags = [false, false, false, false, false]; // [processed, didPass, cancelled, memberAdd, memberKick]
         _submitProposal(paymentRequested, details, flags);
         return proposalCount - 1; // return proposalId - contracts calling submit might want it
     }
