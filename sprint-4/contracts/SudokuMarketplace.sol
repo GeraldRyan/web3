@@ -110,7 +110,10 @@ contract SudokuMarketplace is Ownable, Pausable {
     ) public pure returns (bool valid) {}
 
     /// @dev Checks deadline
-    modifier OnlyIfStillOpen(address proposer, uint index) {}
+    modifier OnlyIfStillOpen(address proposer, uint index) {
+        // added this gcr
+        _;
+    }
 
     /// @dev Checks that sudoku hasn't been already solved
     modifier OnlyIfNotSolved(address proposer, uint index) {

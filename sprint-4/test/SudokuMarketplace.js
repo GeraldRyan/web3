@@ -1,7 +1,9 @@
+
 const SudokuMarketplace = artifacts.require("SudokuMarketplace");
 require("truffle-test-utils").init();
 let marketplaceInstance;
 var sudoku;
+// import "@nomiclabs/hardhat-truffle5"; // loaded via hardhat.config but here extends typing for vscode
 
 /*
  * uncomment accounts to access the test accounts made available by the
@@ -12,15 +14,17 @@ var sudoku;
 //   return new Promise(resolve => setTimeout(resolve, ms));
 // }
 
-contract("SudokuMarketplace", function(accounts) {
+// contract("SudokuMarketplace", function(accounts) { // HUH Bloomtech????
+describe("SudokuMarketplace", function(accounts) {
+  beforeEach(async () => {
+    marketplaceInstance = await SudokuMarketplace.deployed();
+  });
+
   it("should state that contracts are deployed", async function() {
     await SudokuMarketplace.deployed();
     return assert.isTrue(true);
   });
 
-  beforeEach(async () => {
-    marketplaceInstance = await SudokuMarketplace.deployed();
-  });
 
   /*Test Sudoku:
    * [[5,3,4,6,7,8,9,1,2],
