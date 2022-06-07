@@ -1,0 +1,12 @@
+problems with this unit:
+
+Too much at once
+can't install truffle. had to use nvm and then still can't. something with gyp. tried many combinations sudo --unsafe-perms=true, global, local, npx truffle npx ganache. Just struggles. I have make and g++ installed. Why does it have to be so hard? IDGI, so that's a friction
+
+the videos are not smooth. there is too much filler in them. just give the minimal what we need. we can fill the gaps but make it smooth. 
+
+also a new testing framework is fine to learn but back to back when we haven't fully digested the last I don't think is a good idea. 
+
+Also, just because you keep asking about Closed Captions, I know people need them but they are turned on by default for every video, so that's an extra thing one needs to do. 
+
+I think you should slow down the course a little bit, smooth out the set up. It's not your fault npm and node are being weird, and I'm on the latest version 16. I don't know why it doesn't just install- I mean npm is supposed to be really simple. I know it builds native code, but still, it's like networking on ubuntu, when your network interface fails or the config gets overwritten- things that are normally simple become impossible, that can get frustrating and you've tried 10+ combinations so you're not stupid. On top of learning a new testing framework. Not that we can't learn fast but sometimes less is more, let us explore not under pressure. 
