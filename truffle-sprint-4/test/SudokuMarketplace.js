@@ -19,7 +19,6 @@ contract("SudokuMarketplace", function(accounts) {
   });
 
   beforeEach(async () => {
-
     marketplaceInstance = await SudokuMarketplace.deployed();
   });
 

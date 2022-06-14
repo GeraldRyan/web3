@@ -1,0 +1,22 @@
+{
+  "name": "truffle-sprint-4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "truffle test",
+    "ganache-cli": "ganache-cli",
+    "migrate": "truffle migrate --reset"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.6.0",
+    "ganache-cli": "^6.12.2",
+    "truffle": "^5.5.18",
+    "truffle-test-utils": "^0.1.0"
+  }
+}
