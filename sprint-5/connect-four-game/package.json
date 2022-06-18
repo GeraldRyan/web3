@@ -1,0 +1,16 @@
+{
+  "name": "connect-four-game",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ geraldryan/connect-four-game",
+    "create-local": "graph create --node http://localhost:8020/ geraldryan/connect-four-game",
+    "remove-local": "graph remove --node http://localhost:8020/ geraldryan/connect-four-game",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 geraldryan/connect-four-game"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.30.4",
+    "@graphprotocol/graph-ts": "0.27.0"
+  }
+}

@@ -1,0 +1,1 @@
+more straight guide the setup and scaffolding, to focus on the actual core material. Granted it's good to be able to figure things out and self debug. I Get that but when it comes to project scaffolding, i like a canonical way when it comes to coursework, to ensure smoothness and time efficiency.

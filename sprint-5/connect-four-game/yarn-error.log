@@ -1,0 +1,51 @@
+Arguments: 
+  /snap/node/6378/bin/node /home/gerald/node_modules/.bin/yarn global dir
+
+PATH: 
+  /home/gerald/web3/sprint-5/connect-four-game/node_modules/.bin:/home/gerald/web3/sprint-5/node_modules/.bin:/home/gerald/web3/node_modules/.bin:/home/gerald/node_modules/.bin:/home/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/gerald/web3/sprint-5/node_modules/.bin
+
+Yarn version: 
+  1.22.18
+
+Node version: 
+  16.15.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: ../package.json: EACCES: permission denied, write
+      at writeSync (node:fs:888:3)
+      at SyncWriteStream._write (node:internal/fs/sync_write_stream:25:3)
+      at writeOrBuffer (node:internal/streams/writable:389:12)
+      at _write (node:internal/streams/writable:330:10)
+      at SyncWriteStream.Writable.write (node:internal/streams/writable:334:10)
+      at ConsoleReporter.warn (/home/gerald/node_modules/yarn/lib/cli.js:92848:17)
+      at warn (/home/gerald/node_modules/yarn/lib/cli.js:51318:23)
+      at module.exports.exports.default (/home/gerald/node_modules/yarn/lib/cli.js:37401:7)
+      at /home/gerald/node_modules/yarn/lib/cli.js:51329:51
+      at Generator.next (<anonymous>)
+
+npm manifest: 
+  {
+    "name": "connect-four-game",
+    "license": "UNLICENSED",
+    "scripts": {
+      "codegen": "graph codegen",
+      "build": "graph build",
+      "deploy": "graph deploy --node https://api.thegraph.com/deploy/ geraldryan/connect-four-game",
+      "create-local": "graph create --node http://localhost:8020/ geraldryan/connect-four-game",
+      "remove-local": "graph remove --node http://localhost:8020/ geraldryan/connect-four-game",
+      "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 geraldryan/connect-four-game"
+    },
+    "dependencies": {
+      "@graphprotocol/graph-cli": "0.30.4",
+      "@graphprotocol/graph-ts": "0.27.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

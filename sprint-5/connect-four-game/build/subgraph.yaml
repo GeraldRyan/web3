@@ -1,0 +1,32 @@
+specVersion: 0.0.4
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ConnectFour
+    network: rinkeby
+    source:
+      address: "0x4cEcf63982C6e6eb8785ddFBa5D6C51587981973"
+      abi: ConnectFour
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - BoardUpdated
+        - GameInitialized
+        - GameStarted
+        - RewardClaimed
+      abis:
+        - name: ConnectFour
+          file: ConnectFour/abis/ConnectFour.json
+      eventHandlers:
+        - event: BoardUpdated(uint256,uint8,uint256)
+          handler: handleBoardUpdated
+        - event: GameInitialized(uint256,address,uint256)
+          handler: handleGameInitialized
+        - event: GameStarted(uint256,address)
+          handler: handleGameStarted
+        - event: RewardClaimed(uint256,address,address,uint256)
+          handler: handleRewardClaimed
+      file: ConnectFour/ConnectFour.wasm
