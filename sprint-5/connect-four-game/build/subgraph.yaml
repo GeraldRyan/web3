@@ -13,10 +13,7 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - BoardUpdated
-        - GameInitialized
-        - GameStarted
-        - RewardClaimed
+        - Game
       abis:
         - name: ConnectFour
           file: ConnectFour/abis/ConnectFour.json

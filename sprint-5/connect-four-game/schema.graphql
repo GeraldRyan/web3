@@ -1,5 +1,12 @@
-type ExampleEntity @entity {
+type Game @entity {
   id: ID!
+  betAmount: BigInt!
+  player1: Bytes!
+  player2: Bytes!
+  status: String!
+  moves: [Int!]!
+  nextPlayer: Bytes!
+  winner: Bytes!
   count: BigInt!
   gameId: BigInt! # uint256
   player: Int! # uint8
