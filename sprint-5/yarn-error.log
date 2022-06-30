@@ -2,7 +2,7 @@ Arguments:
   /snap/node/6378/bin/node /usr/local/bin/yarn global dir
 
 PATH: 
-  /home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/gerald/web3/sprint-5/node_modules/.bin
+  /home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 Yarn version: 
   1.22.19

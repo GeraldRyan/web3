@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { Address, BigInt } from "@graphprotocol/graph-ts"
 import {
   ConnectFour,
   BoardUpdated,
@@ -8,30 +8,44 @@ import {
 } from "../generated/ConnectFour/ConnectFour"
 import { Game } from "../generated/schema"
 
-export function handleBoardUpdated(event: BoardUpdated): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = Game.load(event.transaction.from.toHex())
+export function handleGameInitialized(event: GameInitialized): void {
+  let game = new Game(event.params.gameId.toString().padStart(5,"0"));
+  game.betAmount = event.params.betAmount;
+  game.player1 = event.params.player1;
+  game.status = "initialized";
+  game.nextPlayer = new Address(0);
+  game.save();
+}
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (!entity) {
-    entity = new Game(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
+export function handleGameStarted(event: GameStarted): void {
+  let id = event.params.gameId.toString().padStart(5, "O");
+  let game = Game.load(id);
+  if (game == null){
+    return;
   }
+  game.player2 = event.params.player2;
+  game.status = "started";
+  game.nextPlayer = game.player1;
+  game.save();
+}
 
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count.plus(BigInt.fromI32(1))
+export function handleBoardUpdated(event: BoardUpdated): void {
 
-  // Entity fields can be set based on event parameters
-  entity.gameId = event.params.gameId
-  entity.player = event.params.player
-
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
+  let id = event.params.gameId.toString().padStart(5, "0");
+  let game = Game.load(id);
+  if ( game === null){
+    return;
+  }  
+  let moves = game.moves;
+  moves.push(event.params.boardIndex) // needs to be bigint- but where to lever it and why did it generate it thus? 
+  game.moves = moves;
+  if (event.params.player == 1){
+    game.nextPlayer = game.player2;
+  }
+  else {
+    game.nextPlayer = game.player1;
+  }
+  game.save();
   // Note: If a handler doesn't require existing field values, it is faster
   // _not_ to load the entity from the store. Instead, create it fresh with
   // `new Entity(...)`, set the fields that should be updated and save the
@@ -52,9 +66,5 @@ export function handleBoardUpdated(event: BoardUpdated): void {
   // - contract.maxBetAmount(...)
   // - contract.minBetAmount(...)
 }
-
-export function handleGameInitialized(event: GameInitialized): void {}
-
-export function handleGameStarted(event: GameStarted): void {}
 
 export function handleRewardClaimed(event: RewardClaimed): void {}
