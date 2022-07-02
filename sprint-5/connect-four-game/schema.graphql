@@ -4,7 +4,7 @@ type Game @entity {
   player1: Bytes!
   player2: Bytes!
   status: String!
-  moves: [Int!]!
+  moves: [BigInt!]!
   nextPlayer: Bytes!
   winner: Bytes!
   count: BigInt!

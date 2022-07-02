@@ -37,7 +37,7 @@ export function handleBoardUpdated(event: BoardUpdated): void {
     return;
   }  
   let moves = game.moves;
-  moves.push(event.params.boardIndex) // needs to be bigint- but where to lever it and why did it generate it thus? 
+  moves.push(event.params.boardIndex) // Instructor uses number/int8 but I deployed with bigint already 
   game.moves = moves;
   if (event.params.player == 1){
     game.nextPlayer = game.player2;

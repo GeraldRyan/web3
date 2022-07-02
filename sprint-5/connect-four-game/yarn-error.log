@@ -2,7 +2,7 @@ Arguments:
   /snap/node/6378/bin/node /home/gerald/node_modules/.bin/yarn global dir
 
 PATH: 
-  /home/gerald/web3/sprint-5/connect-four-game/node_modules/.bin:/home/gerald/web3/sprint-5/node_modules/.bin:/home/gerald/web3/node_modules/.bin:/home/gerald/node_modules/.bin:/home/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/gerald/web3/sprint-5/node_modules/.bin
+  /home/gerald/web3/sprint-5/connect-four-game/node_modules/.bin:/home/gerald/web3/sprint-5/node_modules/.bin:/home/gerald/web3/node_modules/.bin:/home/gerald/node_modules/.bin:/home/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 Yarn version: 
   1.22.18

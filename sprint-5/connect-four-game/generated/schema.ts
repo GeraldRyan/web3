@@ -78,13 +78,13 @@ export class Game extends Entity {
     this.set("status", Value.fromString(value));
   }
 
-  get moves(): Array<i32> {
+  get moves(): Array<BigInt> {
     let value = this.get("moves");
-    return value!.toI32Array();
+    return value!.toBigIntArray();
   }
 
-  set moves(value: Array<i32>) {
-    this.set("moves", Value.fromI32Array(value));
+  set moves(value: Array<BigInt>) {
+    this.set("moves", Value.fromBigIntArray(value));
   }
 
   get nextPlayer(): Bytes {
