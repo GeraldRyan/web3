@@ -37,6 +37,9 @@ export function handleBoardUpdated(event: BoardUpdated): void {
     return;
   }  
   let moves = game.moves;
+  if (moves == null){
+    moves = []
+  }
   moves.push(event.params.boardIndex) // Instructor uses number/int8 but I deployed with bigint already 
   game.moves = moves;
   if (event.params.player == 1){
@@ -67,4 +70,13 @@ export function handleBoardUpdated(event: BoardUpdated): void {
   // - contract.minBetAmount(...)
 }
 
-export function handleRewardClaimed(event: RewardClaimed): void {}
+export function handleRewardClaimed(event: RewardClaimed): void {
+  let id = event.params.gameId.toString().padStart(5, "0");
+  let game = Game.load(id);
+  if (game == null){
+    return;
+  }
+  game.winner = event.params.winner;
+  game.status = "finished";
+  game.save();
+}

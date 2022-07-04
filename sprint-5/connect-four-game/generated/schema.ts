@@ -42,85 +42,157 @@ export class Game extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get betAmount(): BigInt {
+  get betAmount(): BigInt | null {
     let value = this.get("betAmount");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set betAmount(value: BigInt) {
-    this.set("betAmount", Value.fromBigInt(value));
+  set betAmount(value: BigInt | null) {
+    if (!value) {
+      this.unset("betAmount");
+    } else {
+      this.set("betAmount", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get player1(): Bytes {
+  get player1(): Bytes | null {
     let value = this.get("player1");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set player1(value: Bytes) {
-    this.set("player1", Value.fromBytes(value));
+  set player1(value: Bytes | null) {
+    if (!value) {
+      this.unset("player1");
+    } else {
+      this.set("player1", Value.fromBytes(<Bytes>value));
+    }
   }
 
-  get player2(): Bytes {
+  get player2(): Bytes | null {
     let value = this.get("player2");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set player2(value: Bytes) {
-    this.set("player2", Value.fromBytes(value));
+  set player2(value: Bytes | null) {
+    if (!value) {
+      this.unset("player2");
+    } else {
+      this.set("player2", Value.fromBytes(<Bytes>value));
+    }
   }
 
-  get status(): string {
+  get status(): string | null {
     let value = this.get("status");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set status(value: string) {
-    this.set("status", Value.fromString(value));
+  set status(value: string | null) {
+    if (!value) {
+      this.unset("status");
+    } else {
+      this.set("status", Value.fromString(<string>value));
+    }
   }
 
-  get moves(): Array<BigInt> {
+  get moves(): Array<BigInt> | null {
     let value = this.get("moves");
-    return value!.toBigIntArray();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigIntArray();
+    }
   }
 
-  set moves(value: Array<BigInt>) {
-    this.set("moves", Value.fromBigIntArray(value));
+  set moves(value: Array<BigInt> | null) {
+    if (!value) {
+      this.unset("moves");
+    } else {
+      this.set("moves", Value.fromBigIntArray(<Array<BigInt>>value));
+    }
   }
 
-  get nextPlayer(): Bytes {
+  get nextPlayer(): Bytes | null {
     let value = this.get("nextPlayer");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set nextPlayer(value: Bytes) {
-    this.set("nextPlayer", Value.fromBytes(value));
+  set nextPlayer(value: Bytes | null) {
+    if (!value) {
+      this.unset("nextPlayer");
+    } else {
+      this.set("nextPlayer", Value.fromBytes(<Bytes>value));
+    }
   }
 
-  get winner(): Bytes {
+  get winner(): Bytes | null {
     let value = this.get("winner");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set winner(value: Bytes) {
-    this.set("winner", Value.fromBytes(value));
+  set winner(value: Bytes | null) {
+    if (!value) {
+      this.unset("winner");
+    } else {
+      this.set("winner", Value.fromBytes(<Bytes>value));
+    }
   }
 
-  get count(): BigInt {
+  get count(): BigInt | null {
     let value = this.get("count");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set count(value: BigInt) {
-    this.set("count", Value.fromBigInt(value));
+  set count(value: BigInt | null) {
+    if (!value) {
+      this.unset("count");
+    } else {
+      this.set("count", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get gameId(): BigInt {
+  get gameId(): BigInt | null {
     let value = this.get("gameId");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set gameId(value: BigInt) {
-    this.set("gameId", Value.fromBigInt(value));
+  set gameId(value: BigInt | null) {
+    if (!value) {
+      this.unset("gameId");
+    } else {
+      this.set("gameId", Value.fromBigInt(<BigInt>value));
+    }
   }
 
   get player(): i32 {

@@ -1,0 +1,8 @@
+type Player @entity {
+  id: ID!
+  totalGames: Int!
+  gamesWon: Int!
+  totalBets: BigInt!
+  totalClaimed: BigInt!
+  netProfit: BigInt!
+}

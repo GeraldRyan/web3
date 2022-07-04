@@ -1,13 +1,13 @@
 type Game @entity {
   id: ID!
-  betAmount: BigInt!
-  player1: Bytes!
-  player2: Bytes!
-  status: String!
-  moves: [BigInt!]!
-  nextPlayer: Bytes!
-  winner: Bytes!
-  count: BigInt!
-  gameId: BigInt! # uint256
-  player: Int! # uint8
+  betAmount: BigInt
+  player1: Bytes
+  player2: Bytes
+  status: String
+  moves: [BigInt!]
+  nextPlayer: Bytes
+  winner: Bytes
+  count: BigInt
+  gameId: BigInt # uint256
+  player: Int # uint8
 }

@@ -1,0 +1,54 @@
+{
+  "data": {
+    "players": [
+      {
+        "id": "0x4642ab018bc1fd08ef09c3b3fb64ddd35ecc8e14",
+        "totalGames": 157,
+        "gamesWon": 36,
+        "totalBets": "6332",
+        "totalClaimed": "3680",
+        "netProfit": "-2652"
+      },
+      {
+        "id": "0x8522a2ed7e363852d885a4b97e4c1d15eb3ffea8",
+        "totalGames": 1,
+        "gamesWon": 0,
+        "totalBets": "10",
+        "totalClaimed": "0",
+        "netProfit": "-10"
+      },
+      {
+        "id": "0xc33c64a868b2ffb775cb010ebea3d50cc1324ecb",
+        "totalGames": 2,
+        "gamesWon": 1,
+        "totalBets": "20",
+        "totalClaimed": "20",
+        "netProfit": "0"
+      },
+      {
+        "id": "0xc4dfd227848fbe6640ab14c9c339845bed350665",
+        "totalGames": 2,
+        "gamesWon": 0,
+        "totalBets": "20",
+        "totalClaimed": "0",
+        "netProfit": "-20"
+      },
+      {
+        "id": "0xc9e094deb826b00d10af0ab3d2a62d712e89f67a",
+        "totalGames": 4,
+        "gamesWon": 0,
+        "totalBets": "40",
+        "totalClaimed": "0",
+        "netProfit": "-40"
+      },
+      {
+        "id": "0xd6d72fcbcdc0030f57a927f69bfb4ccf14d2dd32",
+        "totalGames": 135,
+        "gamesWon": 26,
+        "totalBets": "6086",
+        "totalClaimed": "2428",
+        "netProfit": "-3658"
+      }
+    ]
+  }
+}
