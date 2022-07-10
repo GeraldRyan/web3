@@ -1,6 +1,7 @@
 const crpytoHash = require("./cryptoHash");
 
 const INIT_DIFFICULTY = 2;
+const MINE_RATE = 1000;
 const GENESIS_DATA = {
     timestamp: 1,
     lastHash: '--',
@@ -28,17 +29,27 @@ class Block{
     static mineBlock(lastBlock, data){
         let timestamp = Date.now()
         let lastHash = lastBlock.hash;
-        const {difficulty} = lastBlock
+        let {difficulty} = lastBlock
         let nonce = 0;
         let hash = ''
 
         do{
             nonce++;
             timestamp = Date.now()
+            difficulty = Block.changeDifficulty({originalBlock: lastBlock, timestamp})
             hash = crpytoHash(timestamp, lastHash, data, nonce, difficulty)
         }
         while(hash.substring(0, difficulty) !== '0'.repeat(difficulty))
         return new this({timestamp, lastHash, hash, data, nonce, difficulty})
+    }
+
+    static changeDifficulty({originalBlock, timestamp}){
+        const {difficulty} = originalBlock;
+        const difference = timestamp - originalBlock.timestamp
+        if (difference > MINE_RATE){
+            return difficulty -1
+        }
+        return difficulty + 1
     }
 }
 
