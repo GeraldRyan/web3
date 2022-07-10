@@ -65,5 +65,10 @@ describe("Block", ()=>{
                 originalBlock: block, timestamp: block.timestamp + MINE_RATE +100
             })).toEqual(block.difficulty - 1)
         })
+
+        it("Has a lower limit of 1", ()=>{
+            block.difficulty = -1
+            expect(Block.changeDifficulty({originalBlock:block})).toEqual(1)
+        })
     })
 })
