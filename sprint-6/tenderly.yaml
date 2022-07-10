@@ -1,0 +1,21 @@
+account_id: ""
+actions:
+  gryan/project:
+    runtime: v1
+    sources: actions
+    specs:
+      example:
+        description: This is just an example, but you can publish this action.
+        function: example:connectFourFn
+        trigger:
+          type: transaction
+          transaction:
+            status:
+              - mined
+            filters:
+              - network: 4
+                eventEmitted:
+                  contract:
+                    address: 0x4cEcf63982C6e6eb8785ddFBa5D6C51587981973
+                  name: GameInitialized 
+project_slug: ""

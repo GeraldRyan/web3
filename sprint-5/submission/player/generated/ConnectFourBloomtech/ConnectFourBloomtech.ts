@@ -147,26 +147,6 @@ export class ConnectFourBloomtech__gamesResult {
     map.set("value4", ethereum.Value.fromBoolean(this.value4));
     return map;
   }
-
-  getPlayer1(): Address {
-    return this.value0;
-  }
-
-  getPlayer2(): Address {
-    return this.value1;
-  }
-
-  getBetAmount(): BigInt {
-    return this.value2;
-  }
-
-  getStatus(): i32 {
-    return this.value3;
-  }
-
-  getIsPlayer1Turn(): boolean {
-    return this.value4;
-  }
 }
 
 export class ConnectFourBloomtech extends ethereum.SmartContract {

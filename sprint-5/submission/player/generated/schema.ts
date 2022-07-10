@@ -15,6 +15,12 @@ export class Player extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
+
+    this.set("totalGames", Value.fromI32(0));
+    this.set("gamesWon", Value.fromI32(0));
+    this.set("totalBets", Value.fromBigInt(BigInt.zero()));
+    this.set("totalClaimed", Value.fromBigInt(BigInt.zero()));
+    this.set("netProfit", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -23,7 +29,8 @@ export class Player extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Player must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        "Cannot save Player entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
       );
       store.set("Player", id.toString(), this);
     }

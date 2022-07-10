@@ -2,7 +2,7 @@ Arguments:
   /snap/node/6378/bin/node /home/gerald/node_modules/.bin/yarn global dir
 
 PATH: 
-  /home/gerald/web3/sprint-5/submission/player/node_modules/.bin:/home/gerald/web3/sprint-5/submission/node_modules/.bin:/home/gerald/web3/sprint-5/node_modules/.bin:/home/gerald/web3/node_modules/.bin:/home/gerald/node_modules/.bin:/home/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+  /home/gerald/web3/sprint-5/submission/player/node_modules/.bin:/home/gerald/web3/sprint-5/submission/node_modules/.bin:/home/gerald/web3/sprint-5/node_modules/.bin:/home/gerald/web3/node_modules/.bin:/home/gerald/node_modules/.bin:/home/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/repos/scripts/Mac-Nix:/home/gerald/.local/bin/:/home/gerald/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/gerald/web3/sprint-5/connect-four-game/node_modules/.bin
 
 Yarn version: 
   1.22.18
@@ -39,7 +39,7 @@ npm manifest:
       "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 geraldryan/player"
     },
     "dependencies": {
-      "@graphprotocol/graph-cli": "0.30.4",
+      "@graphprotocol/graph-cli": "^0.25.0",
       "@graphprotocol/graph-ts": "0.27.0"
     }
   }

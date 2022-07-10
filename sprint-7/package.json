@@ -1,0 +1,16 @@
+{
+  "name": "sprint-7",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watchAll"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "crypto": "^1.0.1",
+    "jest": "^28.1.2"
+  }
+}
