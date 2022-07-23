@@ -1,0 +1,45 @@
+Students need to implement two contracts, with these minimum functionalities:
+myERC20.sol
+constructor(string,string,uint8,uint256) to set name, symbol, decimals and initial supply.
+name() which returns the token name (string)
+symbol() which returns the token symbol (string)
+decimals() which returns the number of token decimals (uint8)
+totalSupply() which returns the CURRENT supply of tokens (uint256)
+transfer(address,uint256) which sends tokens from one account to another, as long as the caller has enough balance
+balanceOf(address) which returns the token balance for the account
+myERC721.sol
+constructor() to set name, symbol, erc20 contract address and max supply.
+name() which returns the NFT name (string)
+symbol() which returns the NFT symbol (string)
+totalSupply() which returns the CURRENT supply of NFTs (uint256)
+maxSupply() which returns the maximum supply of NFTs (unit256)
+transfer() which sends a NFT from one account to another, as long as the caller owns the NFT
+getERC20Bal() which returns the ERC20 token balance for the calling account
+mint() which will issue a new NFT to any caller, as long as supply is available AND the account has a minimum myERC20 balance of 10.  
+Note: We are following here the naming convention of OpenZeppelin, where totalSupply represents the current number of minted tokens, which may also represent the max supply when your contract mints all of the tokens upon deployment, and does not allow for future tokens to be minted. maxSupply usually exists in a ERC721 contract to guarantee NFTs have a predetermined scarcity, publicly available.
+
+Students may choose to implement the contracts from scratch, or use templates such as those offered by OpenZeppelin, as long as the minimum requirements listed above are met.
+
+
+Create and deploy the MyERC20 contract
+Verify the contract using the Etherscan plugin in Remix
+Transfer at least 10 tokens to Bloomtech’s Rinkeby account: "0x4642Ab018bc1Fd08ef09C3b3FB64dDd35ECc8e14"
+Submit to Canvas ERC20.txt with 5 lines containing:
+Deployment transaction hash ID
+Name of token
+Symbol of token
+Number of decimal places
+Total supply (remember to account for decimal numbers!)
+Create and deploy the MyERC721.sol contract
+Verify the contract using the Etherscan plugin in Remix
+Mint at least 2 NFTs
+Transfer the NFT with id 1 to Bloomtech’s Rinkeby account: "0x4642Ab018bc1Fd08ef09C3b3FB64dDd35ECc8e14"
+Submit to Canvas ERC721.txt with 5 lines containing:
+Deployment transaction hash ID
+Name of token
+Symbol of token
+Total supply
+Max supply
+Note that in Canvas, you will only need to submit ERC20.txt and ERC721.txt.
+
+The AutoTest will verify that all of the information submitted is correct, and will verify that the Bloomtech account has received at least 10 ERC20 tokens and the ERC721 NFT with ID 1.

@@ -1,7 +1,7 @@
 from stake_hash_utils import StakeHashUtils
 
 class ValidatorSlotUnit():
-    def __init__(self, public_key, iteration, last_block_hash):
+    def __init__(self, public_key: any, iteration: any, last_block_hash: any):
         self.public_key = str(public_key);
         self.iteration = iteration
         self.last_block_hash = str(last_block_hash)
