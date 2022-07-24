@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 //Source: https://ethereum.org/en/developers/tutorials/understand-the-erc-20-token-smart-contract/
-interface IERC20 {
+interface IERC20 {;lk';lkdsf';skml
 
     function totalSupply() external view returns (uint256);
     function balanceOf(address account) external view returns (uint256);
