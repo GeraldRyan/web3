@@ -16,7 +16,6 @@ interface IERC20 {
    event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-
 contract ERC20Basic is IERC20 {
 
     string public constant name = "Bloom Token";
