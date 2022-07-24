@@ -1,4 +1,4 @@
-// SPDX-License-Ientifier: GPL-3.0
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
 interface IERC20 {
@@ -32,16 +32,19 @@ interface IERC20 {
 }
 
 contract GCRToken is IERC20 {
-    string public constant name = "Gerald Token";
-    string public constant symbol = "GCR";
-    uint8 public constant decimals = 18;
+    string public name;
+    string public symbol;
+    uint8 public decimals;
 
     mapping(address => uint256) balances;
     mapping(address => mapping(address => uint256)) allowed;
     uint256 totalSupply_;
     using SafeMath for uint256;
 
-    constructor(uint256 total){
+    constructor(string memory name_, string memory symbol_, uint8 decimals_, uint256 total){
+        name = name_;
+        symbol = symbol_;
+        decimals = decimals_;
         totalSupply_ = total;
         balances[msg.sender] = totalSupply_;
     }
@@ -67,13 +70,20 @@ contract GCRToken is IERC20 {
         emit Approval(msg.sender, delegate, numTokens);
         return true;
     }
-    
+
     function allowance(address owner, address delegate) public override view returns (uint256){
         return allowed[owner][delegate];
     }
 
     function transferFrom(address owner, address buyer, uint256 numTokens) public override returns (bool){
-        require(numTokens <= balances[owner])
+        require(numTokens <= balances[owner]);
+        require(numTokens <= allowed[owner][msg.sender]);
+
+        balances[owner] = balances[owner].sub(numTokens);
+        allowed[owner][msg.sender] = allowed[owner][msg.sender].sub(numTokens);
+        balances[buyer] = balances[buyer].add(numTokens);
+        emit Transfer(owner, buyer, numTokens);
+        return true;
     }
 
 
